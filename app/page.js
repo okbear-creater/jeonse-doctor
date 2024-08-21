@@ -230,11 +230,11 @@ export default function Home() {
             </div>
           ))}
           {/* 이미지 표시 부분 */}
-          {messages.some(msg => msg.content.includes(predefinedAnswers["전세계약의 절차와 주의사항은 무엇인가요?"])) && (
-            <div style={{ marginTop: '20px' }}>
-              <Image src="/pictogram.png" alt="Pictogram 이미지" width={500} height={300} />
-            </div>
-          )}
+        {messages.some(msg => msg.content.includes(predefinedAnswers["전세계약의 절차와 주의사항은 무엇인가요?"])) && (
+          <div className={styles.imageContainer}>
+            <Image src="/pictogram.png" alt="Pictogram 이미지" width={500} height={300} />
+          </div>
+        )}
         </div>
       </div>
       <div className={styles.inputWrapper}>
