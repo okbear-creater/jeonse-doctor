@@ -99,14 +99,25 @@ export default function Home() {
   useEffect(() => {
     if (isLoading) {
       const loadingTimer = setInterval(() => {
-        setLoadingDots(prev => (prev.length < 3 ? prev + '.' : ''));
+        setLoadingDots(prev => (prev.length < 3 ? prev + '.' : '')); // 점이 3개까지 증가
       }, 500);
-
+  
       return () => clearInterval(loadingTimer);
     } else {
       setLoadingDots('');
     }
   }, [isLoading]);
+  
+  useEffect(() => {
+    if (isLoading) {
+      const resetDotsTimer = setInterval(() => {
+        setLoadingDots(''); // 3개의 점이 다 채워지면 다시 초기화
+      }, 4000); // 2초마다 점을 초기화
+  
+      return () => clearInterval(resetDotsTimer);
+    }
+  }, [isLoading]);
+  
 
   const handleFileChange = useCallback((event) => {
     const selectedFile = event.target.files[0];
@@ -155,7 +166,7 @@ export default function Home() {
         // 상태를 업데이트합니다.
         setCurrentTypingMessage(analysisMessage);
         setIsLoading(false);
-      }, 2000); // 2초 후 응답 표시
+      }, 4000); // 2초 후 응답 표시
     }
   }, []);
 
@@ -226,7 +237,7 @@ export default function Home() {
                       p: ({ children }) => <p className={styles.paragraph}>{children}</p>
                     }}
                   >
-                    {message.content || loadingDots}
+                    {message.content || `분석중${loadingDots}`}
                   </ReactMarkdown>
                 )}
               </div>
