@@ -191,4 +191,11 @@
     margin-bottom: 10px;
   }
   
-  
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 100%;
+  }

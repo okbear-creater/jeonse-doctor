@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -99,25 +100,14 @@ export default function Home() {
   useEffect(() => {
     if (isLoading) {
       const loadingTimer = setInterval(() => {
-        setLoadingDots(prev => (prev.length < 3 ? prev + '.' : '')); // 점이 3개까지 증가
+        setLoadingDots(prev => (prev.length < 3 ? prev + '.' : ''));
       }, 500);
-  
+
       return () => clearInterval(loadingTimer);
     } else {
       setLoadingDots('');
     }
   }, [isLoading]);
-  
-  useEffect(() => {
-    if (isLoading) {
-      const resetDotsTimer = setInterval(() => {
-        setLoadingDots(''); // 3개의 점이 다 채워지면 다시 초기화
-      }, 4000); // 2초마다 점을 초기화
-  
-      return () => clearInterval(resetDotsTimer);
-    }
-  }, [isLoading]);
-  
 
   const handleFileChange = useCallback((event) => {
     const selectedFile = event.target.files[0];
@@ -131,7 +121,6 @@ export default function Home() {
       setShowExamples(false);
       setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
-      // 가상 파일 분석 - 키워드별로 대응되는 메시지를 출력합니다.
       setTimeout(() => {
         let analysisMessage = '';
 
@@ -163,10 +152,9 @@ export default function Home() {
           analysisMessage = `${selectedFile.name} 파일을 분석 중입니다. 잠시만 기다려 주세요.`;
         }
 
-        // 상태를 업데이트합니다.
         setCurrentTypingMessage(analysisMessage);
         setIsLoading(false);
-      }, 4000); // 2초 후 응답 표시
+      }, 4000);
     }
   }, []);
 
@@ -243,6 +231,17 @@ export default function Home() {
               </div>
             </div>
           ))}
+          {/* 이미지 표시 부분 */}
+          {messages.some(msg => msg.content.includes(predefinedAnswers["등기부등본이란 무엇인가요?"]) || msg.content.includes(predefinedAnswers["신탁원부란 무엇인가요?"])) && (
+            <div className={styles.imageContainer}>
+              <Image src="/website_1.png" alt="Website 1 이미지" width={500} height={300} />
+            </div>
+          )}
+          {messages.some(msg => msg.content.includes(predefinedAnswers["건축물대장이란 무엇인가요?"])) && (
+            <div className={styles.imageContainer}>
+              <Image src="/website_2.png" alt="Website 2 이미지" width={500} height={300} />
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.inputWrapper}>
