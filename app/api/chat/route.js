@@ -15,7 +15,6 @@ export async function POST(request) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-    // 초기 프롬프트와 사용자 메시지를 결합
     const prompt = `넌 전세 사기 방지 정보를 알려주는 챗봇이야. 부동산 관련 지식이 적은 사용자들을 대상으로 전세 계약시 가이드라인을 제공하고, 실 계약 진행 시 체크리스트 및 AI를 활용한 문서 검토 서비스를 제공해. 질문에 간결하게 답변해. 답변에서 이모티콘은 쓰지 말고 텍스트로만 답변해.  
 
 사용자의 질문: ${message}`;
@@ -35,7 +34,7 @@ export async function POST(request) {
 
     const result = await model.generateContent(content);
     const response = await result.response;
-    const responseText = response.text();
+    const responseText = await response.text();
 
     return NextResponse.json({ response: responseText });
   } catch (error) {

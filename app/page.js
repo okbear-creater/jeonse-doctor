@@ -32,7 +32,7 @@ export default function Home() {
   const [showExamples, setShowExamples] = useState(true);
   const [currentTypingMessage, setCurrentTypingMessage] = useState('');
   const [loadingDots, setLoadingDots] = useState('');
-  const typingSpeed = 5; // 타이핑 속도 (밀리초)
+  const typingSpeed = 5;
 
   const examplePrompts = [
     "부동산이 경매에 넘어가면 보증금을 어떻게 받을 수 있나요?",
@@ -204,39 +204,35 @@ export default function Home() {
     setShowExamples(false);
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
-    if (predefinedAnswers[message]) {
-      // 저장된 답변이 있는 경우
-      setCurrentTypingMessage(predefinedAnswers[message]);
-      setIsLoading(false);
-    } else {
-      // Gemini API 호출
-      try {
+    try {
+      const responseMessage = predefinedAnswers[message];
+      if (responseMessage) {
+        setCurrentTypingMessage(responseMessage);
+      } else {
         const formData = new FormData();
         formData.append('message', message);
-
         if (file) {
           formData.append('file', file);
         }
 
-        const response = await fetch('/api/chat', {
+        const res = await fetch('/api/chat', {
           method: 'POST',
           body: formData,
         });
 
-        const data = await response.json();
-
-        if (data.error) {
-          setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
-        } else {
+        const data = await res.json();
+        if (data.response) {
           setCurrentTypingMessage(data.response);
+        } else {
+          setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
         }
-      } catch (error) {
-        console.error('Error:', error);
-        setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
-      } finally {
-        setFile(null);
-        setPreview(null);
       }
+    } catch (error) {
+      console.error('Error:', error);
+      setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
+    } finally {
+      setFile(null);
+      setPreview(null);
     }
   };
 

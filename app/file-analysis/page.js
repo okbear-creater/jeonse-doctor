@@ -125,7 +125,7 @@ export default function Home() {
         let analysisMessage = '';
 
         if (selectedFile.name.toLowerCase().includes('contract_1')) {
-          analysisMessage = `전세계약서에 따르면, 보증금은 2억 5천만 원입니다. 그러나 전세보증금이 안전하게 보호되려면 해당 부동산의 권리관계, 특히 근저당권 설정 여부를 확인해야 합니다. 
+          analysisMessage = `전세계약서에 따르면, 보증금은 2억 8천만 원입니다. 그러나 전세보증금이 안전하게 보호되려면 해당 부동산의 권리관계, 특히 근저당권 설정 여부를 확인해야 합니다. 
 
 또한, 계약서에 명시된 임대인이 실제 소유자인지 확인하기 위해 등기부등본을 업로드해 주세요.`;
         } else if (selectedFile.name.toLowerCase().includes('deed_1')) {
