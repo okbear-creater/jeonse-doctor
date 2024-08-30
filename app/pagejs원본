@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import styles from './page.module.css';
 
+// 전송 아이콘 SVG 컴포넌트
 const SendIcon = ({ className }) => (
   <svg
     className={className}
@@ -202,41 +203,18 @@ export default function Home() {
     setInput('');
     setIsLoading(true);
     setShowExamples(false);
+    // 로딩 상태를 나타내는 메시지 추가
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
-    if (predefinedAnswers[message]) {
-      // 저장된 답변이 있는 경우
-      setCurrentTypingMessage(predefinedAnswers[message]);
-      setIsLoading(false);
-    } else {
-      // Gemini API 호출
-      try {
-        const formData = new FormData();
-        formData.append('message', message);
-
-        if (file) {
-          formData.append('file', file);
-        }
-
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        if (data.error) {
-          setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
-        } else {
-          setCurrentTypingMessage(data.response);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
-      } finally {
-        setFile(null);
-        setPreview(null);
-      }
+    try {
+      const responseMessage = predefinedAnswers[message] || "죄송합니다, 해당 질문에 대한 답변을 찾을 수 없습니다.";
+      setCurrentTypingMessage(responseMessage);
+    } catch (error) {
+      console.error('Error:', error);
+      setCurrentTypingMessage('죄송합니다, 오류가 발생했습니다. 다시 시도해 주세요.');
+    } finally {
+      setFile(null);
+      setPreview(null);
     }
   };
 
@@ -275,11 +253,12 @@ export default function Home() {
               </div>
             </div>
           ))}
-          {messages.some(msg => msg.content.includes(predefinedAnswers["전세계약의 절차와 주의사항은 무엇인가요?"])) && (
-            <div className={styles.imageContainer}>
-              <Image src="/pictogram.png" alt="Pictogram 이미지" width={750} height={241} />
-            </div>
-          )}
+          {/* 이미지 표시 부분 */}
+        {messages.some(msg => msg.content.includes(predefinedAnswers["전세계약의 절차와 주의사항은 무엇인가요?"])) && (
+          <div className={styles.imageContainer}>
+            <Image src="/pictogram.png" alt="Pictogram 이미지" width={750} height={241} />
+          </div>
+        )}
         </div>
       </div>
       <div className={styles.inputWrapper}>
