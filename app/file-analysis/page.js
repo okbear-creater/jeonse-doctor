@@ -234,7 +234,7 @@ export default function Home() {
           {/* 이미지 표시 부분 */}
           {messages.some(msg => msg.content.includes(predefinedAnswers["등기부등본이란 무엇인가요?"]) || msg.content.includes(predefinedAnswers["신탁원부란 무엇인가요?"])) && (
             <div className={styles.imageContainer}>
-              <Image src="/website_1.png" alt="Website 1 이미지" width={500} height={300} />
+              <Image src="/website_1.png" alt="Website 1 이미지" width={500} height={30} />
             </div>
           )}
           {messages.some(msg => msg.content.includes(predefinedAnswers["건축물대장이란 무엇인가요?"])) && (

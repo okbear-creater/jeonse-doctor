@@ -256,7 +256,7 @@ export default function Home() {
           {/* 이미지 표시 부분 */}
         {messages.some(msg => msg.content.includes(predefinedAnswers["전세계약의 절차와 주의사항은 무엇인가요?"])) && (
           <div className={styles.imageContainer}>
-            <Image src="/pictogram.png" alt="Pictogram 이미지" width={500} height={300} />
+            <Image src="/pictogram.png" alt="Pictogram 이미지" width={750} height={241} />
           </div>
         )}
         </div>
